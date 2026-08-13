@@ -1,0 +1,5 @@
+﻿Sentrix_ID,Sample_Name,Subgroup,Reduced,Subtype,SubClass,Trial,absolute_purity,estimate_purity,basepath,Basename,ArrayType,Biphasic,Triphasic,DataType,SubClass_label,SubClass_color
+209251850130_R03C01,SC-16-02715,"MB, G3 G4 I ",,,G3_G4_I,JCL research methylation,,,/home/qtran/Medulloblastoma_Lee/raw_data/idats/209251850130_R03C01,data/example/209251850130_R03C01,EPICv2,,,query,G3_G4_I,#FF6B6B
+209259480102_R07C01,SC-16-02389,"MB, G3 G4 I ",,,G3_G4_I,JCL research methylation,,,/home/qtran/Medulloblastoma_Lee/raw_data/idats/209259480102_R07C01,data/example/209259480102_R07C01,EPICv2,,,query,G3_G4_I,#FF6B6B
+209547720147_R02C01,SC-14-01751,"MB, G4, subgroup 7",,,G3_G4_VII,JCL research methylation,,,/home/qtran/Medulloblastoma_Lee/raw_data/idats/209547720147_R02C01,data/example/209547720147_R02C01,EPICv2,,,query,G3_G4_VII,#568203
+209547720147_R03C01,SR-15-01638/SC-15-01638,"MB, G4, subgroup 7",,,G3_G4_VII,JCL research methylaton,,,/home/qtran/Medulloblastoma_Lee/raw_data/idats/209547720147_R03C01,data/example/209547720147_R03C01,EPICv2,,,query,G3_G4_VII,#568203

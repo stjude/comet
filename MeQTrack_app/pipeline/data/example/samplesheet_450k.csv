@@ -1,0 +1,7 @@
+﻿Sentrix_ID,Sample_Name,Subgroup,Reduced,Subtype,SubClass,Trial,absolute_purity,estimate_purity,basepath,Basename,ArrayType,Biphasic,Triphasic,DataType,SubClass_label,SubClass_color
+9741779008_R03C02,SC-09-01150,"MB, G3/4, subgroup 7",,,G3_G4_VII,Brent's files,,,/home/qtran/Medulloblastoma_Lee/raw_data/idats/9741779008_R03C02,data/example/9741779008_R03C02,450k,,Yes,query,G3_G4_VII,#568203
+9741950103_R03C01,SC-08-01043  ,"MB, G3/4, subgroup 7",,,G3_G4_VII,Brent's files,,,/home/qtran/Medulloblastoma_Lee/raw_data/idats/9741950103_R03C01,data/example/9741950103_R03C01,450k,,Yes,query,G3_G4_VII,#568203
+9741950136_R06C02,SR-09-00570,"MB, G3/4, subgroup 7",,,G3_G4_VII,Brent's files,,,/home/qtran/Medulloblastoma_Lee/raw_data/idats/9741950136_R06C02,data/example/9741950136_R06C02,450k,,Yes,query,G3_G4_VII,#568203
+9934625088_R01C01,SR-08-00673,"MB, G3/4, subgroup 7 ",,,G3_G4_VII,Brent's files,,,/home/qtran/Medulloblastoma_Lee/raw_data/idats/9934625088_R01C01,data/example/9934625088_R01C01,450k,,Yes,query,G3_G4_VII,#568203
+9934987065_R05C02,SC-12-01331,"MB, G4, subgroup 8 ",,,G3_G4_VIII,Brent's files,,,/home/qtran/Medulloblastoma_Lee/raw_data/idats/9934987065_R05C02,data/example/9934987065_R05C02,450k,,,query,G3_G4_VIII,#807DBA
+9934987066_R03C01,SR-12-01714,"MB, G4, subgroup 7 ",,,G3_G4_VII,Brent's files,,,/home/qtran/Medulloblastoma_Lee/raw_data/idats/9934987066_R03C01,data/example/9934987066_R03C01,450k,,,query,G3_G4_VII,#568203

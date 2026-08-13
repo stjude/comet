@@ -1,0 +1,135 @@
+/* app/www/meqtrack.css
+ * ---------------------------------------------------------------------------
+ * Phase A visual polish: subtle hover/transition, muted badge colors,
+ * tighter card headers, gradient navbar. No layout changes.
+ * --------------------------------------------------------------------------- */
+
+/* Smooth everything that matters for perceived quality. */
+.card, .btn, .nav-link, .badge {
+  transition: all 160ms cubic-bezier(.4, 0, .2, 1);
+}
+
+/* Cards: warm off-white surface with soft hover lift. */
+.card {
+  background-color: #fefefe;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+.card:hover {
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+  border-color: #cbd5e1;
+}
+
+/* Card headers: tracked micro-caps label, not a heavy bar. */
+.card-header {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #475569;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* Buttons: slight lift on hover. */
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+}
+.btn:active { transform: translateY(0); }
+
+/* Badges: muted tint, higher-contrast text, not full-saturation. */
+.badge.bg-primary {
+  background-color: rgba(13, 148, 136, 0.15) !important;
+  color: #115e59 !important;
+  font-weight: 600;
+}
+.badge.bg-success {
+  background-color: rgba(16, 185, 129, 0.14) !important;
+  color: #065f46 !important;
+  font-weight: 600;
+}
+.badge.bg-warning {
+  background-color: rgba(245, 158, 11, 0.16) !important;
+  color: #92400e !important;
+  font-weight: 600;
+}
+.badge.bg-danger {
+  background-color: rgba(239, 68, 68, 0.14) !important;
+  color: #991b1b !important;
+  font-weight: 600;
+}
+.badge.bg-secondary {
+  background-color: #e2e8f0 !important;
+  color: #475569 !important;
+  font-weight: 600;
+}
+
+/* Alerts: flatter and more readable. */
+.alert { border-radius: 8px; border-width: 1px; }
+.alert-success { background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.25); color: #065f46; }
+.alert-warning { background: rgba(245, 158, 11, 0.08); border-color: rgba(245, 158, 11, 0.3);  color: #92400e; }
+.alert-danger  { background: rgba(239, 68, 68, 0.08);  border-color: rgba(239, 68, 68, 0.25);  color: #991b1b; }
+.alert-secondary { background: #f8fafc; border-color: #e2e8f0; color: #475569; }
+.alert-info { background: rgba(13, 148, 136, 0.08); border-color: rgba(13, 148, 136, 0.25); color: #115e59; }
+
+/* Navbar: teal gradient. Signal colors (QC/CNV) stay saturated elsewhere
+ * so the hierarchy isn't flattened. */
+.navbar {
+  background: linear-gradient(90deg, #3de0d5 0%, #99f6e4 100%) !important;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+.navbar .navbar-brand {
+  color: #134e4a !important;
+  font-weight: 600;
+}
+.navbar .nav-link {
+  color: #115e59 !important;
+}
+.navbar .nav-link:hover { color: #134e4a !important; }
+.navbar .nav-link.active {
+  color: #134e4a !important;
+  border-bottom: 2px solid #0f766e;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* DT tables: tighter rows, tabular numerics, subtle hover. */
+table.dataTable {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+}
+table.dataTable tbody tr:hover { background-color: #f8fafc !important; }
+table.dataTable thead th {
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+/* Headers with a tooltip get a help cursor + a subtle dotted underline so
+ * users notice they can hover for an explanation. */
+table.dataTable thead th[title] {
+  cursor: help;
+  border-bottom: 1px dotted #94a3b8 !important;
+}
+/* Right-aligned numeric columns (set via columnDefs className = "dt-right"
+ * in the modules). DT ships dt-right but this nudges header alignment too. */
+table.dataTable thead th.dt-right,
+table.dataTable td.dt-right { text-align: right; }
+
+/* Custom scrollbar (WebKit). */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* Code / file-path strings: a touch softer than default. */
+code {
+  color: #115e59;
+  background-color: rgba(13, 148, 136, 0.08);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  font-size: 0.88em;
+}
+
+/* Section spacing: give the tab contents a breath. */
+.tab-content > .tab-pane { padding-top: 0.5rem; }

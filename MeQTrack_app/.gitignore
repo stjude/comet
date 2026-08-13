@@ -1,0 +1,53 @@
+# macOS
+.DS_Store
+# Finder text-clipping artifacts (created by dragging selected text to Finder).
+*.textClipping
+
+# R
+.Rhistory
+.Rapp.history
+.Rproj.user/
+*.Rproj
+# R's default graphics dump — harmless but noisy in diffs.
+Rplots.pdf
+
+# renv: commit the lockfile and activation script, ignore the machine-specific
+# library cache (users restore it via renv::restore()).
+renv/library/
+renv/local/
+renv/cellar/
+renv/staging/
+renv/python/
+
+# yamapData tarball — 257 MB, over GitHub's 100 MB per-file limit.
+# Users obtain it separately and place it at pipeline/data/ before running setup.R.
+# If you want it in the repo, set up Git LFS and remove this line.
+pipeline/data/yamapData_*.tar.gz
+
+# Reference β-matrices for projection — large binary data, far over GitHub's
+# 100 MB per-file limit. Each dataset ships as a pre-built .rds (the
+# canonical format: COMET ~137 MB, Capper ~211 MB). A CSV is only an
+# optional on-ramp (reference_projection.R parses + caches it as .rds) and
+# is larger still. All are distributed separately (Git LFS or
+# download-on-first-use). The small embedding
+# .RData files and the metadata CSVs in reference/ ARE committed.
+reference/beta_*
+
+# Pipeline run outputs (local, machine-specific)
+runs/
+*.log
+
+# Release artifacts produced by scripts/build_release.sh
+dist/
+
+# Claude Code session state
+.claude/
+
+# Editor junk
+.vscode/
+.idea/
+*.swp
+
+# Raw EPICv2->EPIC conversion benchmark (115 MB) — only the slim
+# 3-column map (EPICv2ToEPIC_map.tsv.gz) is committed and used.
+Anno/EPICv2/EPICv2ToEPIC_conversion.tsv
