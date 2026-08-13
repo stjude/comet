@@ -97,6 +97,18 @@ The pipeline writes everything to your workspace folder
 (`~/MeQTrack/runs/<timestamp>_<samplesheet>/` by default), so every run
 is reproducible and you keep your raw data alongside its outputs.
 
+## Performance
+
+A reference point for sizing a run:
+
+| Samples | Array | Machine | Threads | Wall clock |
+|---|---|---|---|---|
+| 265 | EPIC | Mac Studio (M2 Max, 32 GB) | 4 | 1 h 15 min |
+
+That is the full pipeline end-to-end — preprocessing through report.
+Runtime scales roughly with sample count; raising the thread count on a
+machine with headroom is the main lever if a run feels slow.
+
 ## For developers / CLI users
 
 - **CLI usage** of the underlying R pipeline (no UI required): see
@@ -108,8 +120,8 @@ is reproducible and you keep your raw data alongside its outputs.
 ## Limits & caveats
 
 - One run at a time. The app doesn't queue concurrent runs.
-- Sample-size envelope: 1–96 samples per run; tested up to 96 on a
-  16 GB machine.
+- Sample-size envelope: tested up to 265 samples in a single run (see
+  [Performance](#performance)). Larger runs are untested.
 - The Settings card exposes tunable parameters across QC, dim.
   reduction, reference projection, and CNV. Other pipeline knobs —
   normalization method, filtering toggles — are still at their defaults;
