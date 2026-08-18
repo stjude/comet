@@ -9,6 +9,7 @@ This folder holds the **minimal-example data** used by every analysis in this re
 ---
 
 ## Whole-slide image (WSI) representations
+Below is the description of the representations provided. Due to their size they are saved on zenodo (https://zenodo.org/records/21997824). Please download and copy them here. Note rms_tiles and NB_tiles need to be unzipped
 
 ### `univ2_20x_sample_reps.p` — SAMPLER representations (all tiles, single scale)
 
