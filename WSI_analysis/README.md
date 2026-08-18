@@ -56,7 +56,7 @@ This repository ships **minimal-example, de-identified data** — representative
 - which upstream/raw sources (raw whole-slide-image caches, full methylation matrices, detailed clinical spreadsheets) were **not** included and why, and
 - what cohort-cleaning/label-derivation logic was applied, even in cases where the underlying raw inputs to that logic are not shared.
 
-No file in this repository contains patient names, dates of birth, medical record numbers, or other direct identifiers. Scripts that reference data sources outside this repository (raw institutional data stores) do so only for documentation/provenance purposes and are not expected to be runnable outside of the original internal computing environment; every script's docstring says explicitly whether it can be re-run as-is on the data included here.
+Note: representations need to be downloaded from zenodo (https://zenodo.org/records/21997824) and copied to the data folder.
 
 ## Getting started
 
