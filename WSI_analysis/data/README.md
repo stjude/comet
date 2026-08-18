@@ -1,6 +1,6 @@
 # `data/`
 
-This folder holds the **minimal-example data** used by every analysis in this repository, plus the scripts that generated it (`gen_*.py`). It exists to let a reviewer run the actual model-fitting code (see [`../core_code/README.md`](../core_code/README.md)) end-to-end on real, representative data, **without** distributing the full underlying cohort, raw whole-slide images, raw methylation matrices, or any clinical/identifying information.
+This folder holds the **minimal-example data** used by every analysis in this repository. It exists to help users run the actual model-fitting code (see [`../core_code/README.md`](../core_code/README.md)) end-to-end on real, representative data, **without** distributing the full underlying cohort, raw whole-slide images, raw methylation matrices, or any clinical/identifying information.
 
 ## An important disclosure up front
 
