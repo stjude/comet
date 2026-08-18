@@ -36,7 +36,7 @@ Each folder above has its own `README.md` with full detail; start with [`core_co
 
 Every task folder follows the same three-layer design:
 
-1. **Data** ([`data/`](data/README.md)) — pre-built, reviewer-shareable feature representations (WSI SAMPLER vectors, per-tile foundation-model features, methylation beta values) plus, for tasks with non-trivial cohort construction, a cached "cleaned cohort" pickle so that inclusion/exclusion logic is implemented exactly once and is fully auditable.
+1. **Data** ([`data/`](data/README.md)) — pre-built, reviewer-shareable feature representations (WSI SAMPLER [1] vectors, per-tile UNIv2 [2] foundation-model features, methylation beta values) plus, for tasks with non-trivial cohort construction, a cached "cleaned cohort" pickle so that inclusion/exclusion logic is implemented exactly once and is fully auditable.
 2. **Core code** ([`core_code/`](core_code/README.md)) — pure modeling functions. Each one takes a train CSV, a test CSV, and a path to a representation file, and returns a list of (classifier or model configuration, metric) result rows. No file I/O beyond reading its inputs, no task-specific assumptions, no knowledge of cross-validation.
 3. **Task wrappers** (`tumor_classification/`, `RMSsubtyping/`, `NB_MYCN/`, `NB_ADRN_MES/`, `RMS_survival/`) — thin scripts that load a task-specific train/test splits file, loop over its splits, write the per-split CSVs the core code expects, call the appropriate core function once per split, and aggregate the results (mean/std of every metric) across splits.
 
@@ -86,3 +86,9 @@ Bug reports and small fixes are welcome — see [`CONTRIBUTING.md`](CONTRIBUTING
 ## License
 
 This project is licensed under the [Apache License 2.0](LICENSE).
+
+## References
+
+[1] Mukashyaka P, Sheridan TB, Foroughi pour A, Chuang JH. SAMPLER: unsupervised representations for rapid analysis of whole slide tissue images. EBioMedicine. 2024 Jan 1;99.
+
+[2] Chen RJ, Ding T, Lu MY, Williamson DF, Jaume G, Song AH, Chen B, Zhang A, Shao D, Shaban M, Williams M. Towards a general-purpose foundation model for computational pathology. Nature medicine. 2024 Mar;30(3):850-62.
