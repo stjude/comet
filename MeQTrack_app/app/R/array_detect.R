@@ -1,56 +1,34 @@
 # app/R/array_detect.R
 # ---------------------------------------------------------------------------
-# Detect Illumina methylation array type from an IDAT file.
+# Array-type detection for the Shiny app.
 #
-# We use file size as a coarse heuristic. Real IDATs for each array have
-# known, stable sizes:
+# ARRAY_SIZE_THRESHOLDS, canonical_array_type() and detect_array_from_idat()
+# now live in pipeline/pipeline_modules/array_detect.R so that the app and the
+# CLI pipeline share one set of size thresholds. This file keeps only the
+# app-specific consensus wrapper below.
 #
-#   450K   ~ 8 MB     ( 622K probes, ~13 bytes per probe)
-#   EPIC   ~11 MB     ( 866K probes)
-#   EPICv2 ~15 MB     (~935K probes, plus v2 extensions)
-#
-# A size-based heuristic is fast (no file parsing, no Bioconductor dep),
-# good enough for the UI preview, and is never load-bearing at run time
-# because the pipeline itself will read the actual manifest before any
-# analysis. The user can always override via the dropdown.
+# The size heuristic is fast (no file parsing, no Bioconductor dep), good
+# enough for the UI preview, and never load-bearing at run time because the
+# pipeline reads the actual manifest before any analysis. The user can always
+# override via the dropdown.
 # ---------------------------------------------------------------------------
 
-# Size thresholds in bytes, expressed in decimal MB to match what
-# macOS Finder / Windows Explorer report (1 MB = 1,000,000 bytes).
-# Observed real _Grn.idat sizes from the bundled examples:
-#   EPIC v1 (GSM3735546_201465940014_R01C01): ~13.68 MB
-#   EPICv2  (209251850130_R03C01):            ~14.37 MB
-# These differ by ~0.7 MB; boundary sits at 14.0 MB (midpoint). If
-# real-world IDATs land in the dead zone around 14.0 MB, switch to a
-# manifest-header parse (illuminaio::readIDAT) instead of size.
-ARRAY_SIZE_THRESHOLDS <- list(
-  `450K`   = c(min =  5e6, max = 10e6),
-  `EPIC`   = c(min = 10e6, max = 14e6),
-  `EPICv2` = c(min = 14e6, max = 20e6)
-)
-
-#' Guess array type from a Basename stem (expects _Grn.idat to exist).
-#'
-#' @return list(array_type = "450K"|"EPIC"|"EPICv2"|NA, size = integer|NA,
-#'              reason = character)
-detect_array_from_idat <- function(basename_stem) {
-  grn <- paste0(basename_stem, "_Grn.idat")
-  if (!file.exists(grn)) {
-    return(list(array_type = NA_character_, size = NA_integer_,
-                reason = "IDAT not found"))
+# Resolve the shared module relative to the app, then fall back to the
+# locations the pipeline's own find_anno_file() checks, so this works whether
+# the app is launched from the repo root or from app/.
+local({
+  candidates <- c(
+    file.path("pipeline", "pipeline_modules", "array_detect.R"),
+    file.path("..", "pipeline", "pipeline_modules", "array_detect.R"),
+    file.path(getwd(), "pipeline", "pipeline_modules", "array_detect.R")
+  )
+  hit <- candidates[file.exists(candidates)]
+  if (!length(hit)) {
+    stop("array_detect.R: cannot locate pipeline_modules/array_detect.R; ",
+         "expected one of: ", paste(candidates, collapse = ", "))
   }
-  sz <- file.info(grn)$size
-  for (arr in names(ARRAY_SIZE_THRESHOLDS)) {
-    th <- ARRAY_SIZE_THRESHOLDS[[arr]]
-    if (sz >= th["min"] && sz < th["max"]) {
-      return(list(array_type = arr, size = sz,
-                  reason = sprintf("IDAT size %.1f MB", sz / 1e6)))
-    }
-  }
-  list(array_type = NA_character_, size = sz,
-       reason = sprintf("IDAT size %.1f MB outside known ranges",
-                        sz / 1e6))
-}
+  source(hit[1], local = FALSE)
+})
 
 #' Infer the array type for a validated samplesheet.
 #'

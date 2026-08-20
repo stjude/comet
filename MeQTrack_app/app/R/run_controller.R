@@ -34,7 +34,9 @@ RUN_STAGES <- c(
   dim_reduction        = "Dimensionality reduction",
   reference_projection = "Reference projection",
   cnv                  = "Copy-number variation",
-  visualization        = "Report generation"
+  visualization        = "Report generation",
+  # Opt-in: has its own Run button but is NOT part of "Run analysis" (--step all).
+  deconvolution        = "Cell-type deconvolution (optional)"
 )
 
 # The pipeline emits "Step N:" log lines for the five user-facing steps.
@@ -77,7 +79,8 @@ STEP_PREREQS <- list(
   cnv                  = list("processed_data/preprocessed_data.RData"),
   visualization        = list(c("qc/qc_results.RData",
                                 "dimensionality_reduction/dim_reduction_results.RData",
-                                "cnv/cnv_results.RData"))
+                                "cnv/cnv_results.RData")),
+  deconvolution        = list("processed_data/preprocessed_data.RData")
 )
 
 # ---------------------------------------------------------------------------
@@ -350,6 +353,8 @@ run_controller_server <- function(id, ss_state, workspace, project_root_,
                         launch_step("cnv"),           ignoreInit = TRUE)
     shiny::observeEvent(input$run_visualization,
                         launch_step("visualization"), ignoreInit = TRUE)
+    shiny::observeEvent(input$run_deconvolution,
+                        launch_step("deconvolution"), ignoreInit = TRUE)
 
     # --- Cancel button ---------------------------------------------------
     shiny::observeEvent(input$cancel, {

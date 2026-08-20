@@ -282,6 +282,33 @@ if (!requireNamespace("conumee2", quietly = TRUE)) {
   }
 }
 
+# deconvMe: cell-type deconvolution for the OPT-IN `--step deconvolution`.
+# GitHub-only (omnideconv/deconvMe). It Depends/Imports several large
+# Bioconductor data packages (FlowSorted.Blood.450k / FlowSorted.Blood.EPIC,
+# EpiDISH, methylCC, reticulate) and its Remotes pulls omnideconv/MethylResolver.
+# Best-effort: a failure here does NOT stop setup.R — the deconvolution step
+# just skips until deconvMe is present (the rest of the pipeline is unaffected).
+if (!requireNamespace("deconvMe", quietly = TRUE)) {
+  message("Installing deconvMe (omnideconv/deconvMe) + deps — large, may take a while...")
+  if (!requireNamespace("remotes", quietly = TRUE)) {
+    install.packages("remotes", type = .pkg_type, repos = .cran_repos)
+  }
+  # Put the Bioconductor repos on options(repos) so remotes can resolve the
+  # FlowSorted/EpiDISH/methylCC deps; restore afterwards.
+  .old_repos <- getOption("repos")
+  options(repos = BiocManager::repositories())
+  tryCatch(
+    remotes::install_github("omnideconv/deconvMe", upgrade = "never"),
+    error = function(e) message(
+      "deconvMe install failed (", conditionMessage(e), "). The deconvolution ",
+      "step will skip until it's installed; re-run setup.R to retry.")
+  )
+  options(repos = .old_repos)
+  if (requireNamespace("deconvMe", quietly = TRUE)) {
+    message("deconvMe installed.")
+  }
+}
+
 # ---------------------------------------------------------------------------
 # 5. yamapData from local tarball
 # ---------------------------------------------------------------------------

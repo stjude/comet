@@ -42,6 +42,7 @@ source(file.path("R", "settings_module.R"),    local = FALSE)
 source(file.path("R", "qc_module.R"),          local = FALSE)
 source(file.path("R", "dimred_module.R"),      local = FALSE)
 source(file.path("R", "cnv_module.R"),         local = FALSE)
+source(file.path("R", "deconv_module.R"),      local = FALSE)
 source(file.path("R", "report_module.R"),      local = FALSE)
 source(file.path("R", "help_module.R"),        local = FALSE)
 
@@ -67,6 +68,7 @@ settings_ui  <- settings_module_ui("settings")
 qc_ui        <- qc_module_ui("qc")
 dimred_ui    <- dimred_module_ui("dimred")
 cnv_ui       <- cnv_module_ui("cnv")
+deconv_ui    <- deconv_module_ui("deconv")
 report_ui    <- report_module_ui("report")
 help_ui      <- help_module_ui("help")
 
@@ -169,6 +171,13 @@ ui <- bslib::page_navbar(
     )
   ),
   bslib::nav_panel(
+    title = "Deconvolution", icon = icon("layer-group"),
+    bslib::card(
+      bslib::card_header("Cell-type deconvolution (deconvMe)"),
+      bslib::card_body(deconv_ui, fillable = FALSE)
+    )
+  ),
+  bslib::nav_panel(
     title = "Report", icon = icon("file-lines"),
     bslib::card(
       bslib::card_header("Report"),
@@ -238,6 +247,7 @@ server <- function(input, output, session) {
   qc_module_server("qc",         results)
   dimred_module_server("dimred", results)
   cnv_module_server("cnv",       results)
+  deconv_module_server("deconv", results)
   report_module_server("report", results)
   help_module_server("help")
 

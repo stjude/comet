@@ -50,7 +50,7 @@ cnv_module_ui <- function(id) {
         ),
         shiny::tags$small(class = "text-muted",
           "Lower cap = more saturation for subtle gains/losses. ",
-          "Pipeline's call threshold is 0.18.")
+          "Pipeline's call threshold is 0.15.")
       ),
       shinycssloaders::withSpinner(
         plotly::plotlyOutput(ns("heatmap_plot"), height = "600px"),
@@ -181,7 +181,7 @@ cnv_module_server <- function(id, results) {
 # Minimal genome-ordered segment heatmap. Rows = samples, x = segment
 # genomic coordinate (treating chromosomes as ordered stripes), fill =
 # seg.mean clamped to ±cap (default 0.3 matches typical methylation CNV
-# dynamic range; the pipeline calls gains/losses at |seg.mean| >= 0.18).
+# dynamic range; the pipeline calls gains/losses at |seg.mean| >= 0.15).
 cnv_segment_heatmap <- function(segments, qc_fail_ids, cap = 0.3) {
   df <- as.data.frame(segments)
   # Flexible column detection (pipeline & cnv_heatmap.R both touch these).

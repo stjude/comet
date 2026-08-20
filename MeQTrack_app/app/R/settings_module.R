@@ -28,7 +28,7 @@ SETTINGS_DEFAULTS <- list(
   dim_variable_probes     = 10000L,
   dim_tsne_perplexity     = 5L,
   dim_umap_neighbors      = 15L,
-  cnv_gain_threshold      =  0.18,
+  cnv_gain_threshold      =  0.15,
   cnv_loss_threshold      = -0.20,
   refproj_dataset         = "COMET_1915",
   refproj_knn_k           = 25L,
@@ -156,7 +156,7 @@ settings_module_ui <- function(id) {
             "CNV gain threshold", d$cnv_gain_threshold,
             paste(
               "seg.mean cutoff above which a segment is called a gain",
-              "(seg.mean > this). 0.18 is the conumee default. Lower",
+              "(seg.mean > this). 0.15 is the conumee default. Lower",
               "values = more sensitive."
             )
           ),

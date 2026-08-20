@@ -51,3 +51,10 @@ dist/
 # Raw EPICv2->EPIC conversion benchmark (115 MB) — only the slim
 # 3-column map (EPICv2ToEPIC_map.tsv.gz) is committed and used.
 Anno/EPICv2/EPICv2ToEPIC_conversion.tsv
+
+# Prepared CNV control references (~40 MB each). Not committed: rebuild from
+# the control IDATs with scripts/build_cnv_controls.R, e.g.
+#   Rscript scripts/build_cnv_controls.R \
+#     --idat_dir /Volumes/qtran/EPICv2_CNV_Controls \
+#     --platform EPICv2 --output Anno/EPICv2/EPICv2_CNV_controls.rds
+Anno/*/[A-Za-z0-9]*_CNV_controls.rds

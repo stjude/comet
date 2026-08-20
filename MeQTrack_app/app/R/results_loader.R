@@ -27,6 +27,7 @@ RESULTS_PATHS <- list(
   qc_report       = file.path("qc", "sample_qc_report.csv"),
   conversion_qc   = file.path("qc", "conversion_qc.csv"),
   snp_concordance = file.path("qc", "snp_concordance.csv"),
+  deconv          = file.path("deconv", "cell_fractions.csv"),
   qc_rdata        = file.path("qc", "qc_results.RData"),
   sample_info     = file.path("processed_data", "sample_info.txt"),
   tsne_rdata      = file.path("dimensionality_reduction", "tsne_results.RData"),
@@ -86,6 +87,15 @@ load_results_bundle <- function(run_dir, run_url_base = NULL) {
     )
   } else NULL
 
+  # Cell-type deconvolution (deconvMe) — tidy long: method, sample, celltype, value.
+  deconv_path <- file.path(run_dir, RESULTS_PATHS$deconv)
+  deconv <- if (file.exists(deconv_path)) {
+    tryCatch(
+      utils::read.csv(deconv_path, stringsAsFactors = FALSE, check.names = FALSE),
+      error = function(e) NULL
+    )
+  } else NULL
+
   sample_info_path <- file.path(run_dir, RESULTS_PATHS$sample_info)
   sample_info <- if (file.exists(sample_info_path)) {
     tryCatch(
@@ -118,6 +128,7 @@ load_results_bundle <- function(run_dir, run_url_base = NULL) {
     qc_report     = qc_report,
     conversion_qc = conversion_qc,
     snp_concordance = snp_concordance,
+    deconv        = deconv,
     qc_fail_ids   = qc_fail_ids,
     sample_info   = sample_info,
     tsne          = tsne,

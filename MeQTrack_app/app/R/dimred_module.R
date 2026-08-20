@@ -197,6 +197,8 @@ dimred_module_server <- function(id, results) {
       }
       scatter_reference_projection(
         r$reference_projection,
+        sample_info    = r$sample_info,
+        metadata_cols  = r$metadata_cols,
         show_reference = is.null(input$refproj_show_ref) ||
                          isTRUE(input$refproj_show_ref),
         class_filter   = input$refproj_classes
@@ -450,16 +452,61 @@ dendro_plotly <- function(hc, qc_fail_ids) {
   m
 }
 
+# Build one HTML hover string per query sample: bold sample ID, then the
+# samplesheet metadata columns (diagnosis + any demographics), the k-NN
+# class hint, and the projected coordinates. `metadata_cols` is the already
+# filtered list of colourable columns (detect_metadata_cols) so we don't
+# dump raw ID/path columns into the tooltip.
+#
+# NOTE: the report's projection plot (visualization.R refproj_plot chunk)
+# builds the same tooltip layout independently — keep the two in sync.
+.refproj_query_hover <- function(proj, sample_info = NULL,
+                                 metadata_cols = NULL, class_hints = NULL) {
+  hov <- sprintf("<b>%s</b>", proj$Sample)
+
+  # Samplesheet metadata, joined by sample ID.
+  if (!is.null(sample_info) && nrow(sample_info) > 0L) {
+    key <- if ("Sample_ID" %in% colnames(sample_info))
+             "Sample_ID" else colnames(sample_info)[1]
+    idx  <- match(proj$Sample, as.character(sample_info[[key]]))
+    cols <- if (length(metadata_cols)) metadata_cols
+            else setdiff(colnames(sample_info), key)
+    for (col in intersect(cols, colnames(sample_info))) {
+      val <- as.character(sample_info[[col]][idx])
+      val[is.na(val) | !nzchar(val)] <- "—"        # em dash for missing
+      hov <- paste0(hov, sprintf("<br>%s: %s", col, val))
+    }
+  }
+
+  # Nearest reference class (k-NN vote) + uncertainty flags.
+  if (!is.null(class_hints)) {
+    ch   <- class_hints[match(proj$Sample, class_hints$Sample), , drop = FALSE]
+    flag <- paste0(ifelse(ch$ambiguous %in% TRUE, " [ambiguous]", ""),
+                   ifelse(ch$distant_from_reference %in% TRUE, " [distant]", ""))
+    hov  <- paste0(hov, sprintf("<br>Nearest class: %s (%.0f%%)%s",
+                                ch$nearest_class, 100 * ch$confidence, flag))
+  }
+
+  paste0(hov, sprintf("<br>t-SNE 1: %.2f | t-SNE 2: %.2f",
+                      proj$tSNE1, proj$tSNE2))
+}
+
 # Plot the reference embedding (coloured cloud, faded) with the user's
 # projected query samples overlaid as dark diamonds.
 #
-# rp              the results bundle's $reference_projection slot
-#                 (list: dataset, projected, ref_meta)
-# show_reference  whether to draw the reference cloud at all
-# class_filter    character vector of tumour groups to keep (empty = all)
-scatter_reference_projection <- function(rp, show_reference = TRUE,
+# rp             the results bundle's $reference_projection slot
+#                (list: dataset, projected, class_hints, ref_meta)
+# sample_info    query samplesheet metadata (for the per-sample hover)
+# metadata_cols  filtered samplesheet columns to surface on hover
+# show_reference whether to draw the reference cloud at all
+# class_filter   character vector of tumour groups to keep (empty = all)
+scatter_reference_projection <- function(rp, sample_info = NULL,
+                                         metadata_cols = NULL,
+                                         show_reference = TRUE,
                                          class_filter = NULL) {
   proj <- as.data.frame(rp$projected)
+  proj$.hover <- .refproj_query_hover(proj, sample_info, metadata_cols,
+                                      rp$class_hints)
   fig  <- plotly::plot_ly()
 
   if (isTRUE(show_reference) && !is.null(rp$ref_meta)) {
@@ -490,10 +537,8 @@ scatter_reference_projection <- function(rp, show_reference = TRUE,
       marker = list(size = 8, symbol = "diamond",
                     color = COLORS$ink_900,
                     line = list(width = 1.2, color = "#ffffff")),
-      text = ~Sample,
-      hovertemplate = paste0(
-        "<b>%{text}</b><br>t-SNE 1: %{x:.2f}<br>",
-        "t-SNE 2: %{y:.2f}<extra>Your sample</extra>")
+      text = ~.hover,
+      hovertemplate = "%{text}<extra>Your sample</extra>"
     ) |>
     plotly::layout(
       xaxis  = list(title = "t-SNE 1"),

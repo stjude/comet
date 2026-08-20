@@ -402,8 +402,66 @@ cat("No reference projection results available.")
 ## Projection Plot
 
 ```{r refproj_plot, eval=has_rp}
-p <- resolve_plot_path(rp$pdf, rp_dir)
-if (!is.null(p)) knitr::include_graphics(p) else cat("*Projection plot not available*\n\n")
+# Interactive projection: hover a query diamond to read its ID, samplesheet
+# metadata (diagnosis + demographics) and k-NN class hint. Falls back to the
+# static PDF when plotly is unavailable. Tooltip mirrors the Shiny app
+# (.refproj_query_hover in app/R/dimred_module.R) — keep the two in sync.
+if (requireNamespace("plotly", quietly = TRUE)) {
+  proj <- as.data.frame(rp$projected)
+  si   <- report_data$sample_info
+  ch   <- rp$class_hints
+  excl <- c("Sample_ID", "Sentrix_ID", "Sentrix_Position",
+            "Basename", "Array", "Slide", "Pool_ID")
+
+  hov <- sprintf("<b>%s</b>", proj$Sample)
+  if (!is.null(si) && nrow(si) > 0) {
+    key <- if ("Sample_ID" %in% colnames(si)) "Sample_ID" else colnames(si)[1]
+    idx <- match(proj$Sample, as.character(si[[key]]))
+    for (col in setdiff(colnames(si), excl)) {
+      val <- as.character(si[[col]][idx])
+      val[is.na(val) | !nzchar(val)] <- "—"
+      hov <- paste0(hov, sprintf("<br>%s: %s", col, val))
+    }
+  }
+  if (!is.null(ch)) {
+    chm  <- ch[match(proj$Sample, ch$Sample), , drop = FALSE]
+    flag <- paste0(ifelse(chm$ambiguous %in% TRUE, " [ambiguous]", ""),
+                   ifelse(chm$distant_from_reference %in% TRUE, " [distant]", ""))
+    hov  <- paste0(hov, sprintf("<br>Nearest class: %s (%.0f%%)%s",
+                                chm$nearest_class, 100 * chm$confidence, flag))
+  }
+  proj$hover <- paste0(hov, sprintf("<br>t-SNE 1: %.2f | t-SNE 2: %.2f",
+                                    proj$tSNE1, proj$tSNE2))
+
+  fig <- plotly::plot_ly()
+  rm_ <- rp$ref_meta
+  if (!is.null(rm_)) {
+    rm_ <- as.data.frame(rm_)
+    rm_$tumor_group <- factor(rm_$tumor_group)
+    cmap <- unlist(tapply(rm_$color, rm_$tumor_group, function(x) x[[1]]))
+    ok <- vapply(cmap, function(cc) !is.na(cc) &&
+                   tryCatch({ grDevices::col2rgb(cc); TRUE },
+                            error = function(e) FALSE), logical(1))
+    if (any(!ok)) cmap[!ok] <- grDevices::rainbow(sum(!ok))
+    fig <- plotly::add_markers(fig, data = rm_, x = ~tSNE1, y = ~tSNE2,
+             color = ~tumor_group, colors = cmap,
+             marker = list(size = 9, opacity = 0.75,
+                           line = list(width = 1, color = "#7F7F7F")),
+             text = ~tumor_group,
+             hovertemplate = "Reference: %{text}<extra></extra>")
+  }
+  fig <- plotly::add_markers(fig, data = proj, x = ~tSNE1, y = ~tSNE2,
+           name = "Your samples",
+           marker = list(size = 8, symbol = "diamond", color = "#111111",
+                         line = list(width = 1.2, color = "#ffffff")),
+           text = ~hover, hovertemplate = "%{text}<extra>Your sample</extra>")
+  plotly::layout(fig, xaxis = list(title = "t-SNE 1"),
+                 yaxis = list(title = "t-SNE 2"),
+                 legend = list(itemsizing = "constant"))
+} else {
+  p <- resolve_plot_path(rp$pdf, rp_dir)
+  if (!is.null(p)) knitr::include_graphics(p) else cat("*Projection plot not available*\n\n")
+}
 ```
 
 # Copy Number Variation Analysis {.tabset}
