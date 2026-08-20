@@ -3,7 +3,7 @@
 MELD is a fusion model that combines multi-scale tile-level **UNI-v2** (3*1536-d) and **Virchow-v2** (3*1280-d)
 foundation-model embeddings into a compact per-tile representation for computational
 pathology. This repository is a minimal, working release of the code and weights needed to
-load. Note for VirchowV2 model mean and std of input tiles should be normalized to 0.5 instead of default values.
+load. Note for the Virchow-v2 model, mean and std of input tiles should be normalized to 0.5 instead of default values.
 
 Two checkpoints are included and can be downloaded from hugging face (https://huggingface.co/alifp04/MELD/tree/main)
 
