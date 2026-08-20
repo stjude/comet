@@ -1,12 +1,11 @@
 # MELD
 
-MELD is a fusion model that combines tile-level **UNI-v2** (1536-d) and **Virchow2** (1280-d)
+MELD is a fusion model that combines multi-scale tile-level **UNI-v2** (3*1536-d) and **Virchow2** (3*1280-d)
 foundation-model embeddings into a compact per-tile representation for computational
 pathology. This repository is a minimal, working release of the code and weights needed to
-load and use MELD — a full model card / usage guide will follow once the associated paper is
-published.
+load.
 
-Two checkpoints are included, both trained for 20 epochs:
+Two checkpoints are included and can be downloaded from hugging face ()
 
 | Name | Description |
 |---|---|
