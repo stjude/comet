@@ -1,1 +1,1 @@
-Here we provide the confusion matrices for several analysis of the COMET project. Due to size issue, her we only provide mean, std, and 95% CIs for each method. Complete matrices across runs can be requested from authors.
+Here we provide the confusion matrices for several analysis of the COMET project as zipped pickle files.
