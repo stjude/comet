@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "meld"
+version = "0.1.0"
+description = "MELD: a fusion model combining UNI-v2 and Virchow2 tile-level features for computational pathology."
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "tensorflow>=2.16",
+    "numpy",
+]
+
+[tool.setuptools.packages.find]
+include = ["meld*"]

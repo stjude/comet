@@ -1,0 +1,10 @@
+numpy
+pandas
+polars
+scikit-learn
+scipy
+torch
+lifelines
+scikit-survival
+openpyxl
+pillow >=12.3.0
