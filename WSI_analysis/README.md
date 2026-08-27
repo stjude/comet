@@ -85,7 +85,8 @@ Bug reports and small fixes are welcome — see [`CONTRIBUTING.md`](CONTRIBUTING
 
 ## License
 
-This project is licensed under the [Apache License 2.0](LICENSE).
+This project is licensed under the [GNU General Public License v3.0](LICENSE) (required because
+it depends on and imports `scikit-survival`, which is GPL-3.0-licensed).
 
 ## References
 
