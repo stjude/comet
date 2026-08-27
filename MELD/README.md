@@ -82,3 +82,13 @@ docs/
 This is a first, minimal public release to accompany a paper currently under revision. The
 API intentionally favors simplicity over completeness; expect a more comprehensive release
 (with full tiling/caching utilities and documentation) once the paper is published.
+
+## Contributing
+
+Bug reports and small fixes are welcome — see [`CONTRIBUTING.md`](CONTRIBUTING.md) for how to
+get started, and please follow our [Code of Conduct](CODE_OF_CONDUCT.md). To report a security
+issue, see [`SECURITY.md`](SECURITY.md).
+
+## License
+
+This project is licensed under the [Apache License 2.0](LICENSE).
