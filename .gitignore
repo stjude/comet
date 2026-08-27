@@ -1,0 +1,5 @@
+# Repo-root OS/editor cruft (module-specific rules live in each module's own .gitignore)
+.DS_Store
+.vscode/
+.idea/
+*.swp

@@ -21,5 +21,9 @@ logs_*/
 *.out
 *.err
 
+# Wrapper script outputs (each run_*.py --out defaults to <task>_results.p,
+# written into the current directory when run in place)
+*_results.p
+
 # Local overrides
 .env
