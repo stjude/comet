@@ -273,11 +273,6 @@ get started, and please follow our [Code of Conduct](CODE_OF_CONDUCT.md). Archit
 decisions are recorded in [`docs/decisions/`](docs/decisions/); if a change alters pipeline
 behaviour or output layout, add an ADR alongside it.
 
-When reporting an issue, **never attach IDATs, beta matrices, samplesheets, or QC reports from
-real samples** — they carry identifiable data. Reproduce with the bundled public example where
-you can. To report a security issue, or any file in this repository that you believe contains
-identifiable data, see [`SECURITY.md`](SECURITY.md).
-
 ## License
 
 This project is licensed under the [GNU General Public License v3.0](LICENSE), matching the
