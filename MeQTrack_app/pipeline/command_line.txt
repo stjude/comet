@@ -1,0 +1,50 @@
+# Example cluster submissions
+#
+# Generic, site-agnostic templates for running MeQTrack on an LSF cluster.
+# Replace the bracketed placeholders with your own queue, project/account,
+# paths, and resource requests. `methylation_pipeline.R --hpc` can also
+# generate LSF / SLURM / PBS wrappers for you; see pipeline_modules/hpc.R.
+
+# --- Full pipeline, EPIC ---
+bsub -q <QUEUE> -n 1 -R "rusage[mem=<MEM>GB]" -P <PROJECT> -J meqtrack_epic \
+  -e meqtrack_epic.err -o meqtrack_epic.out \
+  "Rscript methylation_pipeline.R \
+     --input      <PATH>/samplesheet_epic.csv \
+     --output     <PATH>/results_epic \
+     --array_type EPIC \
+     --threads    16 \
+     --step       all"
+
+# --- Full pipeline, 450K ---
+bsub -q <QUEUE> -n 1 -R "rusage[mem=<MEM>GB]" -P <PROJECT> -J meqtrack_450k \
+  -e meqtrack_450k.err -o meqtrack_450k.out \
+  "Rscript methylation_pipeline.R \
+     --input      <PATH>/samplesheet_450k.csv \
+     --output     <PATH>/results_450k \
+     --array_type 450K \
+     --threads    16 \
+     --step       all"
+
+# --- Full pipeline, EPICv2 (longer wall clock) ---
+bsub -q <QUEUE> -n 1 -W 1440 -R "rusage[mem=<MEM>GB]" -P <PROJECT> -J meqtrack_epicv2 \
+  -e meqtrack_epicv2.err -o meqtrack_epicv2.out \
+  "Rscript methylation_pipeline.R \
+     --input      <PATH>/samplesheet_epicv2.csv \
+     --output     <PATH>/results_epicv2 \
+     --array_type EPICv2 \
+     --threads    16 \
+     --step       all"
+
+# --- Standalone multi-sample CNV heatmap (not part of the main pipeline) ---
+# Builds a segment heatmap from an already-computed segmentation file.
+Rscript cnv_heatmap.R \
+  --seg           <PATH>/all_segments.csv \
+  --output        <PATH>/cnv_heatmap.pdf \
+  --metadata      <PATH>/sample_metadata.csv \
+  --meta_id_col   Sentrix_ID \
+  --group_col     "Group,Subclass" \
+  --group_palette "Set1,Set2" \
+  --no_sex_chr \
+  --cap 0.75 \
+  --sort_by_group \
+  --autoscale_h
