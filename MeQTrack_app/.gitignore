@@ -64,3 +64,8 @@ Anno/*/[A-Za-z0-9]*_CNV_controls.rds
 # reference/COMET_reference_labels.csv (regenerate from the LabKey export if the
 # cohort changes). Kept outside the repo at ../COMET_Labkey_*.csv.
 reference/COMET_Labkey_*.csv
+
+# Internal planning notes — per-release scope documents used while developing.
+# They go stale against the shipped code and are addressed to the maintainers,
+# not to users of the published method, so they stay out of the public tree.
+goals*.md
