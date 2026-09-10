@@ -16,6 +16,8 @@ Five analysis tasks are implemented, each built from the same small set of reusa
 
 Every task is a thin **wrapper** over shared **core** modeling code — see [`core_code/README.md`](core_code/README.md) for the modeling logic itself (PCA/feature-selection strategies, every classifier and survival model, every hyperparameter grid) and each task folder's own README for how that task's wrapper scripts drive the core code end-to-end.
 
+For a subset of these tasks, we also provide the final, fully-fitted classifiers/survival models themselves (not just the code to train them) so they can be applied directly to new data — see [`public_classifiers/`](public_classifiers/README.md).
+
 ## Repository layout
 
 ```
